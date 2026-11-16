@@ -1,0 +1,178 @@
+<!doctype html>
+<!-- EarthLense frontend: interface design and implementation were developed with AI assistance (OpenAI ChatGPT). -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#eff8ff" />
+  <meta name="description" content="EarthLense: explore NASA's environmental data and discover what's changing around you, in simple words." />
+  <title>EarthLense — What's changing around you?</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-content">
+      <a href="/" class="logo" aria-label="EarthLense home"><span class="logo-icon">🌎</span><span>Earth<span class="logo-dot">Lense</span></span></a>
+      <nav aria-label="Main navigation"><a href="#explore">Explore</a><a href="#explore-more">Atmosphere & compare</a></nav>
+      <span class="header-pill">🚀 NASA Space Apps</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <span class="eyebrow"><span class="sparkle">✦</span> EXPLORE YOUR PLANET</span>
+        <h1 id="hero-title">What's changing <span>around you?</span></h1>
+        <p class="hero-description">Is your city getting warmer? Is the air getting wetter? Become an Earth detective and discover what NASA's data can tell us! 🌱</p>
+        <a class="hero-button" href="#explore">Let's explore <span aria-hidden="true">↗</span></a>
+        <p class="hero-caption">Real Earth data · Easy-to-understand discoveries · No science degree needed</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <span class="star s1">✦</span><span class="star s2">✧</span><span class="star s3">✦</span>
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="earth-globe"><svg viewBox="0 0 360 360" aria-hidden="true"><defs><clipPath id="earth-clip"><circle cx="180" cy="180" r="171" /></clipPath></defs><g clip-path="url(#earth-clip)" fill="#6bdd9c"><path d="M44 71 Q80 40 124 43 L141 71 164 74 178 98 160 125 116 139 100 173 73 185 50 148 19 121Z"/><path d="M128 177 Q167 165 171 198 L200 220 189 269 162 307 137 336 116 288 103 245Z"/><path d="M223 54 Q255 25 327 75 L368 126 327 160 301 149 275 170 244 143 211 138 194 103Z"/><path d="M224 159 Q270 155 290 197 L278 262 249 309 226 267 213 219 196 184Z"/><path d="M311 277 Q355 278 377 314 L343 352 295 341 278 311Z"/></g></svg></div>
+        <div class="float-card floating-thermo"><span>🌡️</span> Temperature</div>
+        <div class="float-card floating-wind"><span>💨</span> Wind</div>
+        <div class="float-card floating-water"><span>💧</span> Humidity</div>
+      </div>
+    </section>
+
+    <section class="shell explore-section" id="explore" aria-labelledby="explore-title">
+      <div class="section-intro"><span class="section-pill">YOUR EARTH INVESTIGATION</span><h2 id="explore-title">Let's find some clues! <span>🔎</span></h2><p>Just pick a place and choose what you're curious about.</p></div>
+      <div class="workspace">
+        <aside class="control-panel card" aria-label="Choose your investigation">
+          <div class="card-topline"><span class="step-bubble">1</span><div><h3>Pick your place</h3><p>Where should we investigate?</p></div></div>
+          <form id="analysis-form" novalidate>
+            <label class="field-label" for="preset-location">My location</label>
+            <select id="preset-location" aria-label="Choose a location">
+              <option value="toronto">🇨🇦 Toronto, Canada</option>
+              <option value="newyork">🇺🇸 New York, USA</option>
+              <option value="london">🇬🇧 London, UK</option>
+              <option value="cairo">🇪🇬 Cairo, Egypt</option>
+              <option value="sydney">🇦🇺 Sydney, Australia</option>
+              <option value="delhi">🇮🇳 New Delhi, India</option>
+              <option value="custom">📍 Somewhere else (coordinates)</option>
+            </select>
+            <button class="locate-button" type="button" id="locate-button">📍 Use my approximate location</button>
+            <p class="location-feedback" id="location-feedback" role="status" hidden></p>
+            <details class="advanced-location" id="advanced-location">
+              <summary>📍 Choose an exact spot with coordinates</summary>
+              <p>For explorers who know their latitude and longitude.</p>
+              <div class="coordinate-grid">
+                <label for="latitude">Latitude<input id="latitude" type="number" min="-90" max="90" step="0.0001" value="43.7000" required /></label>
+                <label for="longitude">Longitude<input id="longitude" type="number" min="-180" max="180" step="0.0001" value="-79.4000" required /></label>
+              </div>
+            </details>
+
+            <div class="step-divider"></div>
+            <div class="card-topline"><span class="step-bubble pink">2</span><div><h3>What are you curious about?</h3><p>Pick one Earth clue to follow.</p></div></div>
+            <div class="variable-options" role="radiogroup" aria-label="Environmental variable">
+              <label class="variable-choice"><input type="radio" name="variable" value="T2M" checked /><span class="variable-emoji">🌡️</span><span class="variable-text"><strong>Temperature</strong><small>Is the air getting warmer?</small></span><span class="choice-check" aria-hidden="true">✓</span></label>
+              <label class="variable-choice"><input type="radio" name="variable" value="RH2M" /><span class="variable-emoji">💧</span><span class="variable-text"><strong>Humidity</strong><small>Is the air getting more humid?</small></span><span class="choice-check" aria-hidden="true">✓</span></label>
+              <label class="variable-choice"><input type="radio" name="variable" value="WS2M" /><span class="variable-emoji">💨</span><span class="variable-text"><strong>Wind speed</strong><small>Is the air moving faster?</small></span><span class="choice-check" aria-hidden="true">✓</span></label>
+              <label class="variable-choice"><input type="radio" name="variable" value="CLOUD_AMT" /><span class="variable-emoji">☁️</span><span class="variable-text"><strong>Cloud cover</strong><small>Is the sky getting cloudier?</small></span><span class="choice-check" aria-hidden="true">✓</span></label>
+              <label class="variable-choice"><input type="radio" name="variable" value="AOD_55" /><span class="variable-emoji">🌫️</span><span class="variable-text"><strong>Airborne particles</strong><small>How does atmospheric haze change?</small></span><span class="choice-check" aria-hidden="true">✓</span></label>
+            </div>
+
+            <div class="step-divider"></div>
+            <div class="card-topline"><span class="step-bubble yellow">3</span><div><h3>Travel through time</h3><p>How far back should we look?</p></div></div>
+            <div class="year-grid">
+              <label for="start-year">From<input id="start-year" type="number" min="1981" max="2024" value="2001" required /></label>
+              <label for="end-year">To<input id="end-year" type="number" min="1990" max="2025" value="2024" required /></label>
+            </div>
+            <p class="helper-text">We need at least 10 full years to look for long-term changes.</p>
+            <button type="submit" id="analyze-button" class="primary-button"><span id="analyze-button-text">✨ Discover what changed</span><span aria-hidden="true">→</span></button>
+            <button type="button" id="demo-button" class="demo-button">▶ Try our saved Toronto example</button>
+            <p class="demo-explainer">The example uses previously downloaded NASA data. New searches request live data.</p>
+            <p class="form-message" id="form-message" role="alert" hidden></p>
+          </form>
+        </aside>
+
+        <div class="results" aria-live="polite" aria-label="Your Earth investigation results">
+          <section class="story-card card" aria-labelledby="result-title">
+            <div class="story-top"><span class="story-eyebrow">🌍 YOUR EARTH STORY</span><span class="retrieval-tag" id="retrieval-tag">SAVED NASA EXAMPLE</span></div>
+            <div class="story-main"><span class="story-emoji" id="story-emoji" aria-hidden="true">🌤️</span><div><p class="story-place" id="result-title">Toronto, Canada</p><h2 id="finding-title">Let's see what the Earth is telling us!</h2><p class="story-description" id="finding-description">Loading NASA's saved example…</p></div></div>
+            <div class="story-bottom"><span id="result-subtitle">Temperature · 2001–2024</span><span id="story-confidence" class="story-confidence">Analyzing…</span></div>
+          </section>
+
+          <section class="metrics" aria-label="Your discoveries">
+            <article class="metric-card card"><span class="metric-illustration">📈</span><span class="metric-label">Every 10 years</span><strong class="metric-value" id="metric-slope">—</strong><p id="metric-slope-note">How quickly the long-term line changes</p></article>
+            <article class="metric-card card"><span class="metric-illustration">🗓️</span><span class="metric-label">Across the whole time</span><strong class="metric-value" id="metric-change">—</strong><p id="metric-change-note">An estimate from the trend line</p></article>
+            <article class="metric-card card"><span class="metric-illustration">🔎</span><span class="metric-label">How clear is the pattern?</span><strong class="metric-value words" id="metric-evidence">—</strong><p id="metric-evidence-note">Is the long-term direction clear?</p></article>
+          </section>
+
+          <section class="chart-card card" aria-label="Earth data over time">
+            <div class="chart-header"><div><span class="chart-eyebrow">THE CLUES, YEAR BY YEAR</span><h3 id="chart-title">Temperature over time</h3><p id="chart-description">Each dot is one year's average temperature.</p></div><div class="segment" role="group" aria-label="Choose chart view"><button type="button" class="segment-item active" id="annual-button" aria-pressed="true">Yearly</button><button type="button" class="segment-item" id="monthly-button" aria-pressed="false">Monthly</button></div></div>
+            <div class="chart-key"><span><i class="key-line observed"></i>NASA data</span><span id="fitted-legend"><i class="key-line fitted"></i>Long-term trend</span></div>
+            <div class="chart-wrapper"><svg id="trend-chart" viewBox="0 0 960 350" preserveAspectRatio="none" role="img" aria-label="NASA data chart"><text x="480" y="175" text-anchor="middle">Preparing chart…</text></svg><div class="chart-tooltip" id="chart-tooltip" hidden></div></div>
+            <p class="chart-explainer" id="chart-explainer">💡 A single year can be warmer or cooler. The orange line helps us see the bigger picture.</p>
+            <div class="chart-footer"><span id="chart-foot-years">24 years of NASA data</span><button id="export-button" type="button" disabled class="download-button">↓ Save data as CSV</button></div>
+          </section>
+
+          <details class="science-details card" id="science-details">
+            <summary><span>🧪</span><span><strong>For curious scientists</strong><small>Want to see how we checked our answer?</small></span><span class="expand-icon" aria-hidden="true">⌄</span></summary>
+            <div class="science-content"><p>Our app fits a straight line to complete-year averages. These numbers help us check whether the line shows a convincing trend.</p><div class="science-metrics"><div><span>P-value</span><strong id="metric-pvalue">—</strong><small>Smaller than 0.05 suggests a detectable trend under the model assumptions.</small></div><div><span>R²</span><strong id="metric-r2">—</strong><small>How much variation the straight line describes.</small></div><div><span>95% interval for the trend</span><strong id="confidence-value">—</strong><small>A plausible range for the slope, assuming the model fits.</small></div></div><p id="science-interpretation"></p><p class="science-warning">This data comes from NASA gridded model/satellite-derived products, not a sensor on your street. A trend doesn't prove why a change happened. The statistical check assumes independent, similarly variable errors, which might not hold for time series.</p><a href="https://power.larc.nasa.gov/docs/services/api/temporal/monthly/" target="_blank" rel="noopener noreferrer">Learn about NASA POWER data ↗</a></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell future-section" id="explore-more" aria-labelledby="future-title">
+      <span class="section-pill lavender">KEEP EXPLORING</span>
+      <h2 id="future-title">Explore the sky and compare places <span>✨</span></h2>
+      <p class="future-subtitle">These are real investigations! Pick what interests you and EarthLense will use NASA data for the selected years and locations.</p>
+      <div class="future-grid">
+        <article class="future-card card atmosphere-card" aria-labelledby="atmosphere-title">
+          <div class="future-heading"><div class="future-icon atmosphere-icon">🛰️</div><span class="preview-badge live-badge">LIVE NASA ANALYSIS</span></div>
+          <h3 id="atmosphere-title">What's happening in the atmosphere?</h3>
+          <p>Discover whether the sky is becoming cloudier or whether sunlight is passing through more tiny airborne particles.</p>
+          <div class="atmosphere-art" aria-hidden="true"><div class="atmosphere-layer layer-one"></div><div class="atmosphere-layer layer-two"></div><div class="atmosphere-layer layer-three"></div><span>🌎</span></div>
+          <p class="preview-question">Choose an atmospheric clue:</p>
+          <div class="atmosphere-pills" role="group" aria-label="Atmospheric variable">
+            <button type="button" class="atmosphere-pill active" data-atmosphere="clouds" aria-pressed="true">☁️ Cloud cover</button>
+            <button type="button" class="atmosphere-pill" data-atmosphere="aerosols" aria-pressed="false">🌫️ Airborne particles</button>
+          </div>
+          <p class="sky-source-note">Uses the location and years in your investigation above. Cloud cover and aerosol optical depth come from NASA POWER / CERES SYN1deg.</p>
+          <button type="button" id="atmosphere-button" class="primary-button compare-go">🛰️ Investigate the atmosphere</button>
+          <p class="preview-message" id="atmosphere-message" role="status" aria-live="polite">Choose a clue, then investigate to see its real NASA trend.</p>
+          <div class="sky-results" id="atmosphere-results" hidden>
+            <strong id="atmosphere-headline"></strong>
+            <p id="atmosphere-description"></p>
+            <div class="sky-stats"><div><small>CHANGE EVERY 10 YEARS</small><strong id="atmosphere-slope">—</strong></div><div><small>LONG-TERM EVIDENCE</small><strong id="atmosphere-evidence">—</strong></div></div>
+            <svg id="atmosphere-chart" viewBox="0 0 360 125" role="img" aria-label="Annual NASA atmospheric measurements" preserveAspectRatio="none"></svg>
+            <p class="sky-source-note" id="atmosphere-caveat"></p>
+          </div>
+        </article>
+        <article class="future-card card compare-card" aria-labelledby="comparison-title">
+          <div class="future-heading"><div class="future-icon compare-icon">🌍</div><span class="preview-badge live-badge">TWO-PLACE COMPARISON</span></div>
+          <h3 id="comparison-title">How does my place compare?</h3>
+          <p>Compare two cities or anywhere on Earth using the same environmental clue and years selected above.</p>
+          <div class="comparison-preview">
+            <div class="comparison-side"><label for="compare-a">PLACE A</label>
+              <select id="compare-a" aria-label="First comparison location">
+                <option value="toronto">Toronto</option><option value="newyork">New York</option><option value="london">London</option><option value="cairo">Cairo</option><option value="sydney">Sydney</option><option value="delhi">New Delhi</option><option value="custom">📍 Custom place</option>
+              </select>
+              <div class="comparison-coordinates" id="compare-a-coordinates" hidden><label>Latitude<input type="number" id="compare-a-lat" min="-90" max="90" step="any" placeholder="43.7" /></label><label>Longitude<input type="number" id="compare-a-lon" min="-180" max="180" step="any" placeholder="-79.4" /></label></div>
+              <div class="comparison-placeholder"><span>📍</span><strong id="compare-a-name">Toronto</strong><small id="compare-a-result">Press Compare to begin</small><svg id="compare-a-chart" viewBox="0 0 160 72" aria-label="Place A annual trend" hidden></svg></div>
+            </div>
+            <span class="versus">VS</span>
+            <div class="comparison-side"><label for="compare-b">PLACE B</label>
+              <select id="compare-b" aria-label="Second comparison location">
+                <option value="newyork">New York</option><option value="toronto">Toronto</option><option value="london">London</option><option value="cairo">Cairo</option><option value="sydney">Sydney</option><option value="delhi">New Delhi</option><option value="custom">📍 Custom place</option>
+              </select>
+              <div class="comparison-coordinates" id="compare-b-coordinates" hidden><label>Latitude<input type="number" id="compare-b-lat" min="-90" max="90" step="any" placeholder="40.7" /></label><label>Longitude<input type="number" id="compare-b-lon" min="-180" max="180" step="any" placeholder="-74" /></label></div>
+              <div class="comparison-placeholder"><span>📍</span><strong id="compare-b-name">New York</strong><small id="compare-b-result">Press Compare to begin</small><svg id="compare-b-chart" viewBox="0 0 160 72" aria-label="Place B annual trend" hidden></svg></div>
+            </div>
+          </div>
+          <button id="compare-button" type="button" class="primary-button compare-go">🌍 Compare these places</button>
+          <p class="preview-message" id="compare-message" aria-live="polite" role="status">The blue lines show NASA observations; the orange dashed lines show each place's estimated long-term trend. Both charts use the same vertical scale.</p>
+          <p class="sky-source-note">Each place is analyzed separately. A difference between the two slopes isn't proof that their trends are statistically different.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><div><strong>🌎 EarthLense</strong><p>Made for curious minds at NASA Space Apps Challenge 2026.</p></div><div><p>Sources: NASA POWER · MERRA-2 · CERES SYN1deg</p><p>Model-based estimates · Trends are not explanations of causes.</p></div></div></footer>
+</body>
+</html>
